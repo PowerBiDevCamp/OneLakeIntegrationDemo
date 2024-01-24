@@ -45,15 +45,6 @@ namespace OneLakeIntegrationDemo.Services {
       filesFolder = this.fileSystemClient.GetDirectoryClient(lakehouseId + @"\Files");
     }
 
-    public void UploadMainFileForSparkJobDefinition(string SparkJobDefinitionId, string FileContent) {
-      var sjdFolder = this.fileSystemClient.GetDirectoryClient(SparkJobDefinitionId + @"\Main");
-      var file = sjdFolder.GetFileClient("Main.py");
-      file.Create();
-      var fileContentStream = new MemoryStream(Encoding.UTF8.GetBytes(FileContent));
-      file.Append(fileContentStream, 0);
-      file.Flush(fileContentStream.Length);      
-    }
-
     public DataLakeDirectoryClient CreateTopLevelFolder(string FolderName) {
       var folder = filesFolder.GetSubDirectoryClient(FolderName);
       folder.CreateIfNotExists();
@@ -67,6 +58,14 @@ namespace OneLakeIntegrationDemo.Services {
       return file;
     }
 
-  }
+    public void UploadMainFileForSparkJobDefinition(string SparkJobDefinitionId, string FileContent) {
+      var sjdFolder = this.fileSystemClient.GetDirectoryClient(SparkJobDefinitionId + @"\Main");
+      var file = sjdFolder.GetFileClient("Main.py");
+      file.Create();
+      var fileContentStream = new MemoryStream(Encoding.UTF8.GetBytes(FileContent));
+      file.Append(fileContentStream, 0);
+      file.Flush(fileContentStream.Length);      
+    }
 
+  }
 }
