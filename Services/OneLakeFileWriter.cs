@@ -15,7 +15,6 @@ namespace OneLakeIntegrationDemo.Services {
     
     private readonly AccessToken accessToken;
 
-
     public OneLakeTokenCredentials() {
       accessToken = new AccessToken(accessTokenResult.AccessToken, accessTokenResult.ExpiresOn);
     }
@@ -47,17 +46,12 @@ namespace OneLakeIntegrationDemo.Services {
     }
 
     public void UploadMainFileForSparkJobDefinition(string SparkJobDefinitionId, string FileContent) {
-
       var sjdFolder = this.fileSystemClient.GetDirectoryClient(SparkJobDefinitionId + @"\Main");
-
       var file = sjdFolder.GetFileClient("Main.py");
       file.Create();
-
       var fileContentStream = new MemoryStream(Encoding.UTF8.GetBytes(FileContent));
-
       file.Append(fileContentStream, 0);
       file.Flush(fileContentStream.Length);      
-
     }
 
     public DataLakeDirectoryClient CreateTopLevelFolder(string FolderName) {
@@ -67,16 +61,11 @@ namespace OneLakeIntegrationDemo.Services {
     }
 
     public DataLakeFileClient CreateFile(DataLakeDirectoryClient Folder, string FileName, Stream FileContent) {
-
       var file = Folder.GetFileClient(FileName);
       file.Create();
-
       file.Upload(FileContent, overwrite: true);
-
       return file;
     }
-
-
 
   }
 
